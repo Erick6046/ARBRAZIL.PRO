@@ -1,0 +1,23 @@
+arb-brazil-pro/
+├── backend/
+│   ├── src/
+│   │   ├── bots/
+│   │   │   ├── arbitrageBot.js
+│   │   │   ├── puppeteerStealth.js
+│   │   │   └── mlModel.js
+│   │   ├── routes/
+│   │   │   ├── odds.js
+│   │   │   ├── bets.js
+│   │   │   └── admin.js
+│   │   └── server.js
+├── frontend/
+│   ├── pages/
+│   ├── components/
+│   └── public/
+├── app/
+│   └── App.tsx (React Native)
+├── tor/
+│   └── torrc
+├── docker-compose.yml
+├── install.sh
+└── deploy.sh
