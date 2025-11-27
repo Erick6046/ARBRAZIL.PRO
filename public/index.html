@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SureBet Prophet - The Ultimate Surebet Finder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 3rem;
+            color: var(--success);
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #22d3ee, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(30, 41, 59, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--success);
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(15, 23, 42, 0.8);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .surebets-container {
+            display: grid;
+            gap: 20px;
+        }
+
+        .surebet-card {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .surebet-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
+        }
+
+        .surebet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .teams {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .profit-tag {
+            background: linear-gradient(45deg, var(--success), #059669);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .odds-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .odd-card {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .odd-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--warning);
+            margin: 10px 0;
+        }
+
+        .bookmaker {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .stakes-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .stake-item {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stake-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .stake-amount {
+            font-weight: bold;
+            color: var(--success);
+            font-size: 1.1rem;
+        }
+
+        .time-left {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .sport-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(37, 99, 235, 0.2);
+            color: var(--primary);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .market-info {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .highlight {
+            animation: highlight 2s ease;
+        }
+
+        @keyframes highlight {
+            0% { background: rgba(16, 185, 129, 0.3); }
+            100% { background: transparent; }
+        }
+
+        .real-time-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .pulse {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .odds-section, .stakes-section {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .teams {
+                font-size: 1.1rem;
+            }
+            
+            .odd-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <h1>SureBet Prophet</h1>
+            <p class="subtitle">The Ultimate Surebet Finder - 5-12% Guaranteed Profits</p>
+            <p>Real-time surebet opportunities from across the sports betting universe</p>
+        </header>
+
+        <div class="real-time-indicator">
+            <div class="pulse"></div>
+            <span>LIVE UPDATES - REAL-TIME SUREBETS</span>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-label">Active Surebets</div>
+                <div class="stat-value" id="totalSurebets">0</div>
+                <div class="stat-label">Currently Available</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg. Profit</div>
+                <div class="stat-value" id="avgProfit">0.00%</div>
+                <div class="stat-label">Per Surebet</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Last Update</div>
+                <div class="stat-value" id="lastUpdate">--:--:--</div>
+                <div class="stat-label">Time</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label for="sportFilter">Sport</label>
+                <select id="sportFilter">
+                    <option value="all">All Sports</option>
+                    <option value="football">Football</option>
+                    <option value="basketball">Basketball</option>
+                    <option value="tennis">Tennis</option>
+                    <option value="volleyball">Volleyball</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="profitFilter">Min. Profit %</label>
+                <select id="profitFilter">
+                    <option value="5">5%+</option>
+                    <option value="7">7%+</option>
+                    <option value="9">9%+</option>
+                    <option value="10">10%+</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="searchFilter">Search Teams</label>
+                <input type="text" id="searchFilter" placeholder="Search for teams...">
+            </div>
+        </div>
+
+        <div class="surebets-container" id="surebetsContainer">
+            <!-- Surebets will be populated here by JavaScript -->
+        </div>
+
+        <footer>
+            <p>SureBet Prophet &copy; 2023 | The Ultimate Surebet Finder</p>
+            <p>5-12% guaranteed profits | Real-time updates | Superior to all competitors</p>
+        </footer>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let surebets = [];
+
+        // DOM elements
+        const surebetsContainer = document.getElementById('surebetsContainer');
+        const totalSurebetsEl = document.getElementById('totalSurebets');
+        const avgProfitEl = document.getElementById('avgProfit');
+        const lastUpdateEl = document.getElementById('lastUpdate');
+        const sportFilter = document.getElementById('sportFilter');
+        const profitFilter = document.getElementById('profitFilter');
+        const searchFilter = document.getElementById('searchFilter');
+
+        // Format time
+        function formatTime(date) {
+            return new Date(date).toLocaleTimeString();
+        }
+
+        // Calculate time left until expiration
+        function getTimeLeft(expiration) {
+            const now = new Date();
+            const exp = new Date(expiration);
+            const diff = exp - now;
+            
+            if (diff <= 0) return 'EXPIRED';
+            
+            const minutes = Math.floor(diff / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            
+            return `${minutes}m ${seconds}s`;
+        }
+
+        // Update stats display
+        function updateStats() {
+            totalSurebetsEl.textContent = surebets.length;
+            
+            if (surebets.length > 0) {
+                const avgProfit = surebets.reduce((sum, bet) => sum + bet.profitPercentage, 0) / surebets.length;
+                avgProfitEl.textContent = avgProfit.toFixed(2) + '%';
+            } else {
+                avgProfitEl.textContent = '0.00%';
+            }
+            
+            lastUpdateEl.textContent = formatTime(new Date());
+        }
+
+        // Render surebets
+        function renderSurebets() {
+            // Apply filters
+            let filteredSurebets = surebets.filter(bet => {
+                // Sport filter
+                if (sportFilter.value !== 'all' && bet.sport.toLowerCase() !== sportFilter.value) {
+                    return false;
+                }
+                
+                // Profit filter
+                if (bet.profitPercentage < parseFloat(profitFilter.value)) {
+                    return false;
+                }
+                
+                // Search filter
+                if (searchFilter.value && !bet.teams.toLowerCase().includes(searchFilter.value.toLowerCase())) {
+                    return false;
+                }
+                
+                return true;
+            });
+
+            surebetsContainer.innerHTML = '';
+
+            if (filteredSurebets.length === 0) {
+                surebetsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--gray);">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                        <h3>No surebets found</h3>
+                        <p>Try adjusting your filters or check back soon for new opportunities</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredSurebets.forEach(bet => {
+                const timeLeft = getTimeLeft(bet.expiration);
+                const expired = timeLeft === 'EXPIRED';
+                
+                const surebetCard = document.createElement('div');
+                surebetCard.className = 'surebet-card';
+                if (bet.isNew) {
+                    surebetCard.classList.add('highlight');
+                    bet.isNew = false; // Remove highlight after showing once
+                }
+                
+                surebetCard.innerHTML = `
+                    <div class="sport-badge">${bet.sport}</div>
+                    <div class="time-left" style="color: ${expired ? 'var(--danger)' : 'var(--warning)}';">
+                        ${timeLeft}
+                    </div>
+                    
+                    <div class="surebet-header">
+                        <div class="teams">${bet.teams}</div>
+                        <div class="profit-tag" style="background: linear-gradient(45deg, var(--success), #059669);">
+                            ${bet.profitPercentage}% GUARANTEED
+                        </div>
+                    </div>
+                    
+                    <div class="odds-section">
+                        <div class="odd-card">
+                            <div class="bookmaker">${bet.bookmakers[0]}</div>
+                            <div class="odd-value">${bet.odds.option1}</div>
+                            <div class="market-info">${bet.market}</div>
+                        </div>
+                        <div class="odd-card">
+                            <div class="bookmaker">${bet.bookmakers[1]}</div>
+                            <div class="odd-value">${bet.odds.option2}</div>
+                            <div class="market-info">${bet.market}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stakes-section">
+                        <div class="stake-item">
+                            <div class="stake-label">STAKE ON ${bet.bookmakers[0].toUpperCase()}</div>
+                            <div class="stake-amount">€${bet.stakes.option1}</div>
+                        </div>
+                        <div class="stake-item">
+                            <div class="stake-label">STAKE ON ${bet.bookmakers[1].toUpperCase()}</div>
+                            <div class="stake-amount">€${bet.stakes.option2}</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 15px; padding: 10px; background: rgba(16, 185, 129, 0.1); border-radius: 8px; color: var(--success);">
+                        <i class="fas fa-check-circle"></i> Total Investment: €100 | Guaranteed Profit: €${bet.guaranteedProfit.toFixed(2)}
+                    </div>
+                `;
+                
+                surebetsContainer.appendChild(surebetCard);
+            });
+        }
+
+        // Socket event listeners
+        socket.on('surebetsUpdate', (data) => {
+            surebets = data;
+            updateStats();
+            renderSurebets();
+        });
+
+        socket.on('newSurebet', (bet) => {
+            bet.isNew = true;
+            surebets.unshift(bet);
+            
+            // Keep only the last 50 surebets
+            if (surebets.length > 50) {
+                surebets = surebets.slice(0, 50);
+            }
+            
+            updateStats();
+            renderSurebets();
+        });
+
+        // Filter event listeners
+        sportFilter.addEventListener('change', renderSurebets);
+        profitFilter.addEventListener('change', renderSurebets);
+        searchFilter.addEventListener('input', renderSurebets);
+
+        // Initialize
+        updateStats();
+        
+        // Update time left every second
+        setInterval(() => {
+            document.querySelectorAll('.time-left').forEach(el => {
+                const betId = Array.from(surebetsContainer.children).indexOf(el.closest('.surebet-card'));
+                if (betId !== -1 && surebets[betId]) {
+                    el.textContent = getTimeLeft(surebets[betId].expiration);
+                    if (el.textContent === 'EXPIRED') {
+                        el.style.color = 'var(--danger)';
+                    }
+                }
+            });
+        }, 1000);
+    </script>
+</body>
+</html>
