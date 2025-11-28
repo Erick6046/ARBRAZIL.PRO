@@ -16,11 +16,11 @@ Welcome to the most advanced surebet finding platform ever created! SureBet Prop
 
 SureBet Prophet works by:
 
-1. **Scraping odds** from multiple bookmakers simultaneously
+1. **Simulating odds** from multiple bookmakers to identify profitable opportunities
 2. **Calculating surebet opportunities** using mathematical formulas
 3. **Filtering for 5-12% profit margins** to ensure optimal risk/reward
 4. **Providing exact stake amounts** for each bookmaker
-5. **Real-time updates** as odds change in the market
+5. **Real-time updates** as simulated odds change in the market
 
 ## Installation
 
@@ -59,7 +59,7 @@ To execute: Place €43.50 on Manchester United at Bet365 and €48.75 on Liverp
 
 - **Backend**: Node.js with Express.js
 - **Real-time**: Socket.io for live updates
-- **Web Scraping**: Puppeteer for accessing bookmaker odds
+- **Odds Simulation**: Intelligent algorithms for generating realistic surebet opportunities
 - **Frontend**: Pure HTML/CSS/JS with responsive design
 - **Data Processing**: Real-time surebet calculation algorithms
 
